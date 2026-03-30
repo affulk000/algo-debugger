@@ -35,7 +35,7 @@ function withDepths(tokens) {
   });
 }
 
-export default function ExprViz({ s, i, result, sign, stack, phase, numStart, numEnd, color, T }) {
+export default function ExprViz({ s, i, result, sign, stack, numStart, numEnd, color, T }) {
   const _stack  = stack ?? [];
   const tokens  = withDepths(tokenize(s ?? ""));
 
