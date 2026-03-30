@@ -12,7 +12,7 @@ const PASS_COLORS = {
 
 const MAX_BAR_H = 100;
 
-export default function CandyViz({ ratings, candies, activeIdx, passDir, total, phase, color, T }) {
+export default function CandyViz({ ratings, candies, activeIdx, passDir, total, color, T }) {
   const _ratings = ratings ?? [];
   const _candies = candies ?? [];
   const maxCandies = Math.max(..._candies, 1);

@@ -11,7 +11,7 @@ function buildList(vals, tailIdx) {
 export function buildSteps(vals, tailIdx) {
   const steps = [];
   const nodes = buildList(vals, tailIdx);
-  const hasCycle = tailIdx >= 0 && tailIdx < vals.length;
+  const _hasCycle = tailIdx >= 0 && tailIdx < vals.length;
 
   const snap = (slowId, fastId, phase, line, msg, detail, met = false) => ({
     phase, line,

@@ -12,7 +12,7 @@ const STATE_META = [
 
 const BAR_MAX_H = 100;
 
-export default function ProfitViz({ prices, i, price, firstBuy, firstSell, secondBuy, secondSell, changed, phase, color, T }) {
+export default function ProfitViz({ prices, i, price, firstBuy, firstSell, secondBuy, secondSell, changed, color, T }) {
   const _prices  = prices  ?? [];
   const _changed = changed ?? [];
   const states = { firstBuy, firstSell, secondBuy, secondSell };
@@ -66,7 +66,6 @@ export default function ProfitViz({ prices, i, price, firstBuy, firstSell, secon
         {STATE_META.map(({ key, label, color:stateColor, desc }) => {
           const val       = states[key];
           const isChanged = _changed.includes(key);
-          const displayVal = key === "firstBuy" || key === "secondBuy" ? val : val;
           return (
             <div key={key} style={{
               background: isChanged ? `${stateColor}18` : T.surface,

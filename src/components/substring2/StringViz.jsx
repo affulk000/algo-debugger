@@ -11,22 +11,6 @@ export default function StringViz({ s, wordLen, numWords, i, j, left, count, wor
   const isReset  = phase === "reset";
   const isShrink = phase === "shrink";
 
-  // Colour each character cell
-  const getCellStyle = (idx) => {
-    const wordStart = Math.floor((idx - (i ?? 0)) / wordLen) * wordLen + (i ?? 0);
-    const inWindow  = left !== null && j !== null && idx >= left && idx < j + wordLen;
-    const isJWord   = j !== null && idx >= j && idx < j + wordLen;           // current word
-    const isLWord   = left !== null && isShrink && idx >= left - wordLen && idx < left; // just-evicted
-    const inResult  = isFound && left !== null && idx >= left && idx < left + totalLen;
-
-    if (inResult)  return { border: PHASE_COLORS.found,   bg: `${PHASE_COLORS.found}22`,   text: PHASE_COLORS.found   };
-    if (isJWord && isReset) return { border: PHASE_COLORS.miss, bg: `${PHASE_COLORS.miss}18`, text: PHASE_COLORS.miss };
-    if (isJWord)   return { border: color,                bg: `${color}22`,                text: color                };
-    if (isLWord)   return { border: PHASE_COLORS.miss,    bg: `${PHASE_COLORS.miss}15`,    text: PHASE_COLORS.miss    };
-    if (inWindow)  return { border: `${color}55`,         bg: `${color}0a`,                text: T.text               };
-    return { border: T.border, bg: T.card, text: T.textDim };
-  };
-
   // Group chars into word-sized chunks for a cleaner view when wordLen > 1
   const chunks = [];
   for (let ci = 0; ci < chars.length; ci += wordLen) {

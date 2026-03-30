@@ -9,7 +9,7 @@ const BOX_COLORS = [
   "#eab308","#6366f1","#f43f5e",
 ];
 
-export default function BoardViz({ board, r, c, boxIndex, conflict, conflictIn, rows, cols, boxes, phase, color, T }) {
+export default function BoardViz({ board, r, c, boxIndex, conflictIn, phase, color, T }) {
   const isConflict = phase === "conflict" || phase === "done_false";
 
   return (
@@ -43,7 +43,6 @@ export default function BoardViz({ board, r, c, boxIndex, conflict, conflictIn, 
 
               let bg     = T.card;
               let textCol = T.textMid;
-              let border = "";
               let glow   = "none";
 
               const boxAccent = BOX_COLORS[bIdx];

@@ -21,15 +21,14 @@ const MOVE_COLORS = [
   "#f472b6","#facc15","#2dd4bf","#818cf8",
 ];
 
-export default function BoardViz({ board, n, visited, label, next, dest, diceVal, phase, isSnake, isLadder, color, T }) {
+export default function BoardViz({ board, n, visited, label, next, dest, diceVal, phase, color, T }) {
   const labels = buildLabelMap(n);
   const CELL   = Math.min(62, Math.floor(340 / n));
   const target = n * n;
-  const isDone = phase === "done_found" || phase === "done_fail";
+  const _isDone = phase === "done_found" || phase === "done_fail";
 
   // Normalize visited to a Set (backend returns arrays, local steps return Sets)
-  const visitedSet = Array.isArray(visited) ? new Set(visited) : visited;
-  const visitedArr = [...visitedSet];
+  const visitedSet  = Array.isArray(visited) ? new Set(visited) : visited;
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>
@@ -59,8 +58,8 @@ export default function BoardViz({ board, n, visited, label, next, dest, diceVal
               const isVisited = visitedSet.has(cellLabel);
               const isTarget  = cellLabel === target;
               const hasSnakeOrLadder = cell !== -1;
-              const isTeleportSrc = hasSnakeOrLadder && cell > cellLabel; // ladder start
-              const isTeleportDst = hasSnakeOrLadder && cell < cellLabel; // snake start
+              const _isTeleportSrc = hasSnakeOrLadder && cell > cellLabel; // ladder start
+              const _isTeleportDst = hasSnakeOrLadder && cell < cellLabel; // snake start
 
               let bg     = T.card;
               let border = T.border;

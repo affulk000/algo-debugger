@@ -4,8 +4,8 @@ import { FONTS } from "../../constants/fonts.js";
 const { mono, display } = FONTS;
 
 export default function QueueViz({ queue, cur, nx, ny, phase, color, T }) {
-  const isEnqueue = phase === "enqueue";
-  const isDequeue = phase === "dequeue";
+  const isEnqueue  = phase === "enqueue";
+  const _isDequeue = phase === "dequeue";
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>

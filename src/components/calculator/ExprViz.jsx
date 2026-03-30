@@ -35,10 +35,9 @@ function withDepths(tokens) {
   });
 }
 
-export default function ExprViz({ s, i, char, result, sign, stack, phase, numStart, numEnd, color, T }) {
+export default function ExprViz({ s, i, result, sign, stack, phase, numStart, numEnd, color, T }) {
   const _stack  = stack ?? [];
   const tokens  = withDepths(tokenize(s ?? ""));
-  const isDone  = phase === "done";
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>

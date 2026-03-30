@@ -3,7 +3,7 @@ import { PHASE_COLORS } from "../../constants/themes.js";
 import { FONTS } from "../../constants/fonts.js";
 const { mono, display } = FONTS;
 
-export default function CountsViz({ counts, currCounts, word, phase, T }) {
+export default function CountsViz({ counts, currCounts, word, T }) {
   const safeCounts     = counts     ?? {};
   const safeCurrCounts = currCounts ?? {};
   const allKeys = [...new Set([...Object.keys(safeCounts), ...Object.keys(safeCurrCounts)])].sort();

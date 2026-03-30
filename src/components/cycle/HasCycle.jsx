@@ -6,6 +6,7 @@ import {
 import { PHASE_COLORS } from "../../constants/themes.js";
 import { useStepPlayer, useAlgoRun } from "../../hooks/index.js";
 import { PRESETS, CODE_LINES, LINE_ACTIVE } from "./constants.js";
+import { buildSteps } from "./steps.js";
 import LinkedListViz from "./LinkedListViz.jsx";
 
 export default function HasCycle({ T }) {

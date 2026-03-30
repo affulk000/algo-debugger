@@ -11,9 +11,9 @@ export default function BoardViz({ board, path, r, c, found, phase, wordJustFoun
   const _found = found ?? [];
   const m = _board.length, n = _board[0]?.length ?? 0;
   const pathSet  = new Map(_path.map((p, i) => [`${p.r},${p.c}`, i]));
-  const isDone   = phase === "done";
-  const isFound  = phase === "found_word";
-  const isRestore = phase === "restore";
+  const _isDone    = phase === "done";
+  const isFound    = phase === "found_word";
+  const _isRestore = phase === "restore";
 
   const CELL = Math.min(52, Math.floor(260 / Math.max(m, n)));
 

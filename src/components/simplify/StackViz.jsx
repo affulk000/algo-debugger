@@ -7,13 +7,13 @@ const { mono, display } = FONTS;
  * Shows the stack as vertical slots (bottom=index 0) and the parts array
  * with the current part highlighted.
  */
-export default function StackViz({ parts, stack, currentPart, partIdx, phase, popped, color, T }) {
+export default function StackViz({ parts, stack, partIdx, phase, popped, color, T }) {
   const _parts = parts ?? [];
   const _stack = stack ?? [];
-  const isPush    = phase === "push";
-  const isPop     = phase === "pop";
-  const isSkip    = phase === "skip";
-  const isPopEmpty = phase === "pop_empty";
+  const isPush     = phase === "push";
+  const isPop      = phase === "pop";
+  const _isSkip    = phase === "skip";
+  const _isPopEmpty = phase === "pop_empty";
 
   // Build path from stack for the running path display
   const currentPath = "/" + _stack.join("/");
@@ -104,8 +104,8 @@ export default function StackViz({ parts, stack, currentPart, partIdx, phase, po
             [..._stack].reverse().map((seg, revIdx) => {
               const realIdx   = _stack.length - 1 - revIdx;
               const isTop     = realIdx === _stack.length - 1;
-              const isNew     = isPush && isTop;
-              const wasPopped = isPop && popped === seg && isTop;
+              const isNew      = isPush && isTop;
+              const _wasPopped = isPop && popped === seg && isTop;
 
               let borderColor = `${PHASE_COLORS.store}55`;
               let bgColor     = `${PHASE_COLORS.store}0e`;

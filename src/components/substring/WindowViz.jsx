@@ -13,7 +13,7 @@ const { mono, display } = FONTS;
  *   phase === "check_in" or "jump_left".
  * - The old left position is shown as a ghost cell during "jump_left".
  */
-export default function WindowViz({ chars, left, right, lastSeen, maxLength, phase, color, T }) {
+export default function WindowViz({ chars, left, right, maxLength, phase, color, T }) {
   const isDupPhase  = phase === "check_in" || phase === "jump_left";
   const isJump      = phase === "jump_left";
 

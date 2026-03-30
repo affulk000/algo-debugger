@@ -14,8 +14,8 @@ export default function GridViz({ grid, islandMap, scanR, scanC, activeR, active
   const rows = _grid.length;
   const cols = _grid[0]?.length ?? 0;
   const CELL = Math.min(56, Math.floor(320 / Math.max(rows, cols)));
-  const isDone     = phase === "done";
-  const isNewIsland = phase === "new_island";
+  const _isDone      = phase === "done";
+  const _isNewIsland = phase === "new_island";
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>

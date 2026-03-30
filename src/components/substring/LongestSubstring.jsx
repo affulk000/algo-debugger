@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { CodePanel, Controls, DragGrid, MsgBar, PresetBar, ProgressBar, StepFooter, StatusBanner } from "../ui/index.js";
 import { PHASE_COLORS } from "../../constants/themes.js";
-import { FONTS } from "../../constants/fonts.js";
 import { useStepPlayer, useAlgoRun, useBackendSteps, useAlgoMeta } from "../../hooks/index.js";
 import CustomInput from "./CustomInput.jsx";
 import WindowViz   from "./WindowViz.jsx";
 import SeenSet     from "./SeenSet.jsx";
-
-const { mono } = FONTS;
 
 export default function LongestSubstring({ T }) {
   const [presetIdx, setPresetIdx] = useState(0);

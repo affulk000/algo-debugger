@@ -3,8 +3,8 @@ import { FONTS } from "../../constants/fonts.js";
 import Icon from "../ui/Icon.jsx";
 const { mono, display } = FONTS;
 
-export default function QueueViz({ queue, visited, label, dest, moves, phase, color, T }) {
-  const isDone = phase === "done_found" || phase === "done_fail";
+export default function QueueViz({ queue, visited, label, moves, phase, color, T }) {
+  const _isDone = phase === "done_found" || phase === "done_fail";
   const showMax = 14;
 
   return (

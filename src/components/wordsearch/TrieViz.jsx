@@ -42,7 +42,7 @@ export default function TrieViz({ trieAllNodes, trieActiveIds, found, phase, col
 
   const layers   = layerNodes(trieAllNodes);
   const activeSet = Array.isArray(trieActiveIds) ? new Set(trieActiveIds) : trieActiveIds;
-  const isDone   = phase === "done";
+  const _isDone  = phase === "done";
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>

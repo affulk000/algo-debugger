@@ -1,18 +1,24 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import { getAlgoMeta } from "../api.js";
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'fetch':   return { meta: null,        loading: true,  error: null          };
+    case 'success': return { meta: action.data, loading: false, error: null          };
+    case 'error':   return { meta: null,        loading: false, error: action.error  };
+    default:        return state;
+  }
+}
+
 export default function useAlgoMeta(algoName) {
-  const [meta,    setMeta]    = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState(null);
+  const [state, dispatch] = useReducer(reducer, { meta: null, loading: true, error: null });
 
   useEffect(() => {
-    setLoading(true);
-    setError(null);
+    dispatch({ type: 'fetch' });
     getAlgoMeta(algoName)
-      .then(data => { setMeta(data); setLoading(false); })
-      .catch(err => { setError(err.message); setLoading(false); });
+      .then(data => dispatch({ type: 'success', data }))
+      .catch(err  => dispatch({ type: 'error',   error: err.message }));
   }, [algoName]);
 
-  return { meta, loading, error };
+  return state;
 }

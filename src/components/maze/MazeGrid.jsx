@@ -49,9 +49,9 @@ export default function MazeGrid({ maze, visited, cur, nx, ny, path, queue, phas
 
               let bg     = isWall ? T.code  : T.card;
               let border = isWall ? `${T.border}` : T.border;
-              let text   = null;
+              let _text  = null;
               let glow   = "none";
-              let emoji  = null;
+              let _emoji = null;
 
               if (isWall) {
                 bg = `${T.textDim}22`;

@@ -9,7 +9,7 @@ export default function LISViz({ nums, tails, xi, x, left, right, mid, action, p
   const _nums  = nums  ?? [];
   const _tails = tails ?? [];
   const maxVal = Math.max(..._nums, 1);
-  const isDone = phase === "done";
+  const _isDone = phase === "done";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -92,8 +92,8 @@ export default function LISViz({ nums, tails, xi, x, left, right, mid, action, p
 
             <div style={{ display: "flex", gap: 5 }}>
               {_tails.map((v, i) => {
-                const isLeft    = i === left;
-                const isRight   = i === right;
+                const _isLeft   = i === left;
+                const _isRight  = i === right;
                 const isMid     = i === mid;
                 const inRange   = left != null && i >= left && i < right;
                 const isInsert  = i === left && action !== null;

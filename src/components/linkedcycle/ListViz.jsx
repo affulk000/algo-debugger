@@ -33,7 +33,7 @@ function layout(n, cyclePos) {
   return { positions, arrowSets, width, height, NODE_R };
 }
 
-export default function ListViz({ nodeVals, cyclePos, slow, fast, meet, phase, color, T }) {
+export default function ListViz({ nodeVals, cyclePos, slow, fast, meet, phase, T }) {
   const _nodeVals = nodeVals ?? [];
   const n = _nodeVals.length;
   if (n === 0) return null;

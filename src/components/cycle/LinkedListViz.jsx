@@ -48,7 +48,6 @@ function layoutNodes(nodes, tailIdx) {
     }
     // Bottom row of cycle (right to left)
     for (let ci = halfCycle; ci < cycleCount; ci++) {
-      const btm = cycleCount - 1 - ci; // reverse
       positions[cycleNodes[ci]] = {
         x: cycleStartX + (cycleCount - 1 - ci) * H_GAP + (tailIdx === 0 && ci === halfCycle ? H_GAP : 0),
         y: PAD + NODE_R + V_GAP,
@@ -96,12 +95,12 @@ function arrowPath(from, to, isCycleBack) {
   return `M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`;
 }
 
-export default function LinkedListViz({ nodes, slowId, fastId, tailIdx, met, phase, color, T }) {
+export default function LinkedListViz({ nodes, slowId, fastId, tailIdx, met, phase, T }) {
   const positions = layoutNodes(nodes, tailIdx);
   const w = svgWidth(positions);
   const h = svgHeight(positions);
   const hasCycle = tailIdx >= 0 && tailIdx < nodes.length;
-  const isDone = phase === "done_true" || phase === "done_false" || phase === "met" || phase === "no_cycle";
+  const _isDone = phase === "done_true" || phase === "done_false" || phase === "met" || phase === "no_cycle";
 
   return (
     <div style={{ background: T.surface, border: `1px solid ${T.border}`, borderRadius: 12, padding: 16 }}>
@@ -159,16 +158,13 @@ export default function LinkedListViz({ nodes, slowId, fastId, tailIdx, met, pha
           const isBoth = isSlow && isFast;
           const isHead = node.id === 0;
 
-          let fill = `${T.card}`, stroke = T.border, textColor = T.textMid, glow = "none";
+          let fill = `${T.card}`, stroke = T.border, textColor = T.textMid;
           if (isBoth || met) {
             fill = `${MET_COLOR}30`; stroke = MET_COLOR; textColor = MET_COLOR;
-            glow = `0 0 16px ${MET_COLOR}99`;
           } else if (isSlow) {
             fill = `${SLOW_COLOR}25`; stroke = SLOW_COLOR; textColor = SLOW_COLOR;
-            glow = `0 0 12px ${SLOW_COLOR}66`;
           } else if (isFast) {
             fill = `${FAST_COLOR}25`; stroke = FAST_COLOR; textColor = FAST_COLOR;
-            glow = `0 0 12px ${FAST_COLOR}66`;
           }
 
           return (

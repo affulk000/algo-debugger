@@ -3,13 +3,13 @@ import { PHASE_COLORS } from "../../constants/themes.js";
 import { FONTS } from "../../constants/fonts.js";
 const { mono, display } = FONTS;
 
-export default function SetViz({ set, n, cur, streak, activeSeq, allSeqs, phase, longest, color, T }) {
+export default function SetViz({ set, n, cur, activeSeq, allSeqs, phase, longest, color, T }) {
   const _set      = set      ?? [];
   const _activeSeq = activeSeq ?? [];
   const _allSeqs  = allSeqs  ?? [];
   const activeSet  = new Set(_activeSeq);
   const isDone     = phase === "done";
-  const isExtend   = phase === "extend";
+  const _isExtend  = phase === "extend";
   const isStart    = phase === "start";
   const isSkip     = phase === "skip";
   const isUpdate   = phase === "update";
@@ -24,7 +24,7 @@ export default function SetViz({ set, n, cur, streak, activeSeq, allSeqs, phase,
   const cellStyle = (num) => {
     const inActive   = activeSet.has(num);
     const isCur      = num === n;
-    const inLatest   = latestSeq.has(num) && (isUpdate || isBreak || isDone);
+    const _inLatest  = latestSeq.has(num) && (isUpdate || isBreak || isDone);
     const inDone     = completedNums.has(num) && isDone;
 
     if (inActive && isUpdate)  return { border:PHASE_COLORS.found, bg:`${PHASE_COLORS.found}28`, text:PHASE_COLORS.found };

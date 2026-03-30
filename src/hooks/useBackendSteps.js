@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import { getAlgorithmSteps } from "../api.js";
 
 export const LOADING_STEP = {
@@ -27,6 +27,15 @@ export const LOADING_STEP = {
   trieAllNodes: [], trieActiveIds: [],
 };
 
+function reducer(state, action) {
+  switch (action.type) {
+    case 'fetch':   return { steps: [LOADING_STEP], loading: true,  error: null         };
+    case 'success': return { steps: action.steps,   loading: false, error: null         };
+    case 'error':   return { steps: [LOADING_STEP], loading: false, error: action.error };
+    default:        return state;
+  }
+}
+
 /**
  * Fetches algorithm steps from the backend.
  *
@@ -37,9 +46,7 @@ export const LOADING_STEP = {
  * @returns {{ steps, loading, error }}
  */
 export default function useBackendSteps(algoName, input, deps, { enabled = true } = {}) {
-  const [steps,   setSteps]   = useState([LOADING_STEP]);
-  const [loading, setLoading] = useState(true);
-  const [error,   setError]   = useState(null);
+  const [state, dispatch] = useReducer(reducer, { steps: [LOADING_STEP], loading: true, error: null });
 
   const abortRef = useRef(null);
 
@@ -49,26 +56,22 @@ export default function useBackendSteps(algoName, input, deps, { enabled = true 
     const ctrl = new AbortController();
     abortRef.current = ctrl;
 
-    setLoading(true);
-    setError(null);
-    setSteps([LOADING_STEP]);
+    dispatch({ type: 'fetch' });
 
     getAlgorithmSteps(algoName, input)
       .then(data => {
         if (!ctrl.signal.aborted) {
-          setSteps(data.steps);
-          setLoading(false);
+          dispatch({ type: 'success', steps: data.steps });
         }
       })
       .catch(err => {
         if (!ctrl.signal.aborted) {
-          setError(err.message);
-          setLoading(false);
+          dispatch({ type: 'error', error: err.message });
         }
       });
 
     return () => ctrl.abort();
   }, [...deps, enabled]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { steps, loading, error };
+  return state;
 }
