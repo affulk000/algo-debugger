@@ -1,0 +1,52 @@
+export const THEMES = {
+  dark: {
+    name: "Dark", icon: "moon-bold",
+    bg: "#0d1117", surface: "#161b22", card: "#1c2333",
+    border: "#30363d", borderActive: "#58a6ff",
+    text: "#e6edf3", textMid: "#8b949e", textDim: "#484f58",
+    code: "#cdd9e5", codeDim: "#768390",
+    accent: "#f97316",
+  },
+  light: {
+    name: "Light", icon: "sun-bold",
+    bg: "#f0f4f8", surface: "#ffffff", card: "#f6f8fa",
+    border: "#d0d7de", borderActive: "#0969da",
+    text: "#1f2328", textMid: "#57606a", textDim: "#b0b7c3",
+    code: "#24292f", codeDim: "#57606a",
+    accent: "#e85d04",
+  },
+  amber: {
+    name: "Amber", icon: "moon-stars-bold",
+    bg: "#0c0a00", surface: "#141000", card: "#1c1700",
+    border: "#3a2f00", borderActive: "#f5c400",
+    text: "#ffeaa0", textMid: "#b89a30", textDim: "#5a4a10",
+    code: "#ffe066", codeDim: "#8a7020",
+    accent: "#ff8c00",
+  },
+  slate: {
+    name: "Slate", icon: "widget-bold",
+    bg: "#0f1117", surface: "#1a1d27", card: "#222533",
+    border: "#2e3347", borderActive: "#7c86ff",
+    text: "#dce1f5", textMid: "#7c86a8", textDim: "#3a3f56",
+    code: "#c8d0ef", codeDim: "#5c6380",
+    accent: "#ff6b6b",
+  },
+};
+
+export const PHASE_COLORS = {
+  init:       "#3b82f6",
+  scan:       "#f59e0b",
+  compute:    "#c084fc",
+  found:      "#22c55e",
+  miss:       "#f97316",
+  store:      "#06b6d4",
+  nil:        "#94a3b8",
+  loop:       "#f59e0b",
+  compare:    "#f59e0b",
+  pick_a:     "#22c55e",
+  pick_b:     "#c084fc",
+  done:       "#22c55e",
+  leftover:   "#06b6d4",
+  right:      "#f97316",
+  left:       "#38bdf8",
+};

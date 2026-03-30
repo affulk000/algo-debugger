@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────── */
+@keyframes pulse  { 0%,100%{opacity:1} 50%{opacity:0.35} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pop    { 0%{transform:scale(0.55);opacity:0} 65%{transform:scale(1.12)} 100%{transform:scale(1);opacity:1} }
+@keyframes spin   { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
+/* ── Utility ────────────────────────────────────────────────── */
+.cell-active { animation: pop    0.32s ease forwards; }
+.map-new     { animation: pop    0.38s ease forwards; }
+.msg-in      { animation: fadeUp 0.28s ease forwards; }
+.fade-tab    { animation: fadeUp 0.25s ease; }
+
+/* ── Button reset ───────────────────────────────────────────── */
+.tbtn { border:none; background:none; transition:all 0.18s ease; cursor:pointer; }
+.tbtn:hover { opacity:0.82; transform:translateY(-1px); }
+
+/* ── Input helpers ──────────────────────────────────────────── */
+input::placeholder { opacity: 0.4; }
+input[type="range"] { cursor: pointer; }
+.tab-bar::-webkit-scrollbar { display: none; }
+
+/* ── Custom scrollbar for code panels ──────────────────────── */
+.code-scroll::-webkit-scrollbar        { height: 4px; }
+.code-scroll::-webkit-scrollbar-track  { background: transparent; }
+.code-scroll::-webkit-scrollbar-thumb  { border-radius: 4px; }
+
+/* ── iOS Roller ─────────────────────────────────────────────── */
+.roller-track {
+  overflow-y: scroll; scrollbar-width: none; -ms-overflow-style: none;
+  scroll-snap-type: y mandatory; -webkit-overflow-scrolling: touch;
+}
+.roller-track::-webkit-scrollbar { display: none; }
+.roller-item  { scroll-snap-align: center; user-select: none; cursor: pointer; }
+.roller-mask  {
+  -webkit-mask-image: linear-gradient(to bottom,transparent 0%,black 28%,black 72%,transparent 100%);
+  mask-image:         linear-gradient(to bottom,transparent 0%,black 28%,black 72%,transparent 100%);
+}
+
+/* ── Search results ─────────────────────────────────────────── */
+.search-result-item {
+  display:flex; align-items:center; gap:9px;
+  padding:9px 12px; border-radius:8px; cursor:pointer; transition:background 0.12s;
+}
+.search-result-item:hover { background: rgba(255,255,255,0.06); }
+
+/* ══════════════════════════════════════════════════════════════
+   VIZ GRIDS — 2-col and 3-col layouts
+   ══════════════════════════════════════════════════════════════ */
+
+.viz-grid {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+  /* ensure children can't overflow the grid track */
+  min-width: 0;
+}
+
+.viz-grid > * { min-width: 0; overflow: hidden; }
+
+.viz-grid-3 {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+  min-width: 0;
+}
+
+.viz-grid-3 > * { min-width: 0; overflow: hidden; }
+
+/* ── Responsive breakpoints ─────────────────────────────────── */
+
+/* ≤ 900px: code panel collapses below viz (code last, viz first) */
+@media (max-width: 900px) {
+  .viz-grid   { grid-template-columns: 1fr; }
+  .viz-grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── Code-panel overflow reveal ─────────────────────────────── */
+/* Undo the overflow:hidden that the grid applies to children    */
+.viz-grid > .code-panel-wrap,
+.viz-grid-3 > .code-panel-wrap {
+  overflow: visible;
+}

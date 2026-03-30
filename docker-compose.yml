@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  # ── FusionAuth self-hosted ──────────────────────────────────
+  fusionauth:
+    image: fusionauth/fusionauth-app:latest
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/fusionauth
+      DATABASE_ROOT_USERNAME: fusionauth
+      DATABASE_ROOT_PASSWORD: fusionauth
+      DATABASE_USERNAME: fusionauth
+      DATABASE_PASSWORD: fusionauth
+      FUSIONAUTH_APP_MEMORY: 512M
+      FUSIONAUTH_APP_RUNTIME_MODE: development
+      SEARCH_TYPE: database
+    ports:
+      - "9011:9011"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - fusionauth_config:/usr/local/fusionauth/config
+    restart: unless-stopped
+
+  # ── PostgreSQL (FusionAuth datastore) ───────────────────────
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: fusionauth
+      POSTGRES_PASSWORD: fusionauth
+      POSTGRES_DB: fusionauth
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fusionauth"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  fusionauth_config:
+  pg_data:
+
+# ── Usage ──────────────────────────────────────────────────────
+# 1. docker compose up -d
+# 2. Open http://localhost:9011 and complete FusionAuth first-time setup
+# 3. Create an application → copy Client ID & Secret into backend/.env
+# 4. Set Authorized Redirect URL: http://localhost:8080/auth/callback
+# 5. cd backend && go run main.go
