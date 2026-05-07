@@ -4,10 +4,602 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Algo Debugger</title>
+    <meta name="description" content="Master algorithms through interactive visualizations. Explore 25+ data structure problems with step-by-step debugging, real-time code highlighting, and beautiful animations." />
+    <meta name="keywords" content="algorithms, data structures, visualization, coding interview, leetcode, binary search, sorting, graph, dynamic programming" />
+    <meta property="og:title" content="Algo Debugger - Visual Algorithm Learning" />
+    <meta property="og:description" content="Interactive algorithm visualizations for mastering coding interviews" />
+    <meta property="og:type" content="website" />
+    <title>Algo Debugger - Master Algorithms Through Visualization</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --primary: #f97316;
+        --primary-glow: rgba(249, 115, 22, 0.4);
+        --secondary: #8b5cf6;
+        --accent: #06b6d4;
+        --bg-dark: #0a0a0f;
+        --bg-card: #12121a;
+        --bg-card-hover: #1a1a25;
+        --text-primary: #ffffff;
+        --text-secondary: #a1a1aa;
+        --border: #27273a;
+        --gradient-1: linear-gradient(135deg, #f97316 0%, #ec4899 50%, #8b5cf6 100%);
+        --gradient-2: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 100%);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'JetBrains Mono', monospace;
+        background: var(--bg-dark);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      .bg-grid {
+        position: fixed;
+        inset: 0;
+        background-image: 
+          linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+        background-size: 50px 50px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .bg-glow {
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+        top: -200px;
+        right: -200px;
+        pointer-events: none;
+        z-index: 0;
+        animation: pulse 8s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.1); }
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(10px);
+        background: rgba(10, 10, 15, 0.8);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .logo {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 800;
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+
+      .cta-button {
+        background: var(--gradient-1);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border: none;
+        cursor: pointer;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px var(--primary-glow);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8rem 2rem 4rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-content {
+        max-width: 900px;
+        text-align: center;
+      }
+
+      .hero-badge {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: var(--secondary);
+        margin-bottom: 1.5rem;
+      }
+
+      .hero h1 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero h1 span {
+        background: var(--gradient-1);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.8;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .secondary-button {
+        background: transparent;
+        color: var(--text-primary);
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+      }
+
+      .secondary-button:hover {
+        border-color: var(--text-secondary);
+        background: var(--bg-card);
+      }
+
+      /* Features Section */
+      .features {
+        padding: 6rem 2rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .section-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-header h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .section-header p {
+        color: var(--text-secondary);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2rem;
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        background: var(--bg-card-hover);
+        border-color: rgba(139, 92, 246, 0.3);
+        transform: translateY(-4px);
+      }
+
+      .feature-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+      }
+
+      .feature-card:nth-child(1) .feature-icon { background: rgba(249, 115, 22, 0.1); }
+      .feature-card:nth-child(2) .feature-icon { background: rgba(139, 92, 246, 0.1); }
+      .feature-card:nth-child(3) .feature-icon { background: rgba(6, 182, 212, 0.1); }
+      .feature-card:nth-child(4) .feature-icon { background: rgba(236, 72, 153, 0.1); }
+      .feature-card:nth-child(5) .feature-icon { background: rgba(34, 197, 94, 0.1); }
+      .feature-card:nth-child(6) .feature-icon { background: rgba(251, 146, 60, 0.1); }
+
+      .feature-card h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        line-height: 1.7;
+      }
+
+      /* Algorithms Preview */
+      .algorithms {
+        padding: 6rem 2rem;
+        background: var(--bg-card);
+        position: relative;
+        z-index: 1;
+      }
+
+      .algo-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .algo-tag {
+        padding: 0.5rem 1rem;
+        background: var(--bg-dark);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        transition: all 0.2s;
+      }
+
+      .algo-tag:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      /* CTA Section */
+      .cta-section {
+        padding: 6rem 2rem;
+        position: relative;
+        z-index: 1;
+        text-align: center;
+      }
+
+      .cta-card {
+        max-width: 700px;
+        margin: 0 auto;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 4rem 2rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gradient-1);
+      }
+
+      .cta-card h2 {
+        font-family: 'Syne', sans-serif;
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .cta-card p {
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+      }
+
+      /* Footer */
+      footer {
+        padding: 3rem 2rem;
+        border-top: 1px solid var(--border);
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      footer a {
+        color: var(--text-secondary);
+        transition: color 0.2s;
+      }
+
+      footer a:hover {
+        color: var(--primary);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .hero {
+          padding: 6rem 1rem 3rem;
+        }
+
+        .features, .algorithms, .cta-section {
+          padding: 4rem 1rem;
+        }
+
+        .feature-card {
+          padding: 1.5rem;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.8s ease forwards;
+        opacity: 0;
+      }
+
+      .fade-in-delay-1 { animation-delay: 0.1s; }
+      .fade-in-delay-2 { animation-delay: 0.2s; }
+      .fade-in-delay-3 { animation-delay: 0.3s; }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <nav>
+      <div class="logo">Algo Debugger</div>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#algorithms">Algorithms</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a href="#app" class="cta-button">Launch App</a>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <span class="hero-badge fade-in">✨ Interactive Algorithm Visualizations</span>
+        <h1 class="fade-in fade-in-delay-1">
+          Master Algorithms<br />
+          <span>Through Visualization</span>
+        </h1>
+        <p class="fade-in fade-in-delay-2">
+          Explore 25+ data structure problems with step-by-step debugging, 
+          real-time code highlighting, and beautiful animations. Perfect for 
+          coding interview preparation and computer science students.
+        </p>
+        <div class="hero-buttons fade-in fade-in-delay-3">
+          <a href="#app" class="cta-button">Start Learning Free</a>
+          <a href="#features" class="secondary-button">Learn More ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="section-header">
+        <h2>Why Algo Debugger?</h2>
+        <p>Everything you need to understand algorithms deeply</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Step-by-Step Execution</h3>
+          <p>Watch algorithms execute one step at a time. Control the pace, rewind, and replay to understand every detail of how the solution works.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💻</div>
+          <h3>Live Code Highlighting</h3>
+          <p>See exactly which line of code is executing. Connect visual changes to the underlying code logic in real-time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Beautiful Visualizations</h3>
+          <p>Arrays, graphs, trees, and matrices come alive with smooth animations and color-coded elements that make patterns obvious.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3>25+ Algorithms</h3>
+          <p>From Two Sum to Number of Islands, covering hash maps, two pointers, sliding windows, BFS, DFS, dynamic programming, and more.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Multiple Themes</h3>
+          <p>Switch between light, dark, and colorful themes. Customize fonts and find the perfect setup for your learning style.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🦀</div>
+          <h3>Rust Examples</h3>
+          <p>Learn algorithms in both JavaScript and Rust. See how memory management and ownership work in systems programming.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="algorithms" class="algorithms">
+      <div class="section-header">
+        <h2>Algorithms Covered</h2>
+        <p>Comprehensive coverage of essential coding interview problems</p>
+      </div>
+      <div class="algo-tags">
+        <span class="algo-tag">Two Sum</span>
+        <span class="algo-tag">Merge Sorted Arrays</span>
+        <span class="algo-tag">Longest Substring</span>
+        <span class="algo-tag">Container Water</span>
+        <span class="algo-tag">Two Sum II</span>
+        <span class="algo-tag">Palindrome Check</span>
+        <span class="algo-tag">Simplify Path</span>
+        <span class="algo-tag">Candy Distribution</span>
+        <span class="algo-tag">Find Substring</span>
+        <span class="algo-tag">Maze Solver (BFS)</span>
+        <span class="algo-tag">Valid Sudoku</span>
+        <span class="algo-tag">Longest Consecutive</span>
+        <span class="algo-tag">Reverse Words</span>
+        <span class="algo-tag">Minimum Arrow Shots</span>
+        <span class="algo-tag">Word Search (Trie)</span>
+        <span class="algo-tag">Linked List Cycle</span>
+        <span class="algo-tag">Number of Islands</span>
+        <span class="algo-tag">Calculator (Stack)</span>
+        <span class="algo-tag">Snakes & Ladders</span>
+        <span class="algo-tag">Longest Increasing Subsequence</span>
+        <span class="algo-tag">Max Profit (DP)</span>
+        <span class="algo-tag">Binary Search (Rust)</span>
+        <span class="algo-tag">Bubble Sort (Rust)</span>
+      </div>
+    </section>
+
+    <section id="about" class="cta-section">
+      <div class="cta-card">
+        <h2>Ready to Master Algorithms?</h2>
+        <p>
+          Stop memorizing solutions. Start understanding them. 
+          Join thousands of students and developers who learn better with visualization.
+        </p>
+        <a href="#app" class="cta-button">Launch the App →</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>
+        Built with ❤️ by <a href="https://github.com/affulk000" target="_blank" rel="noopener">Emmanuel Afful</a>
+      </p>
+      <p style="margin-top: 0.5rem;">
+        <a href="https://github.com/affulk000/algo-debugger" target="_blank" rel="noopener">View on GitHub</a>
+      </p>
+    </footer>
+
+    <!-- App Container (hidden by default, shown when user clicks Launch) -->
+    <div id="app-container" style="display: none;">
+      <div id="root"></div>
+      <script type="module" src="/src/main.jsx"></script>
+    </div>
+
+    <script>
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const href = this.getAttribute('href');
+          if (href === '#app') {
+            e.preventDefault();
+            // Hide landing page content and show app
+            document.querySelector('nav').style.display = 'none';
+            document.querySelector('.bg-grid').style.display = 'none';
+            document.querySelector('.bg-glow').style.display = 'none';
+            document.querySelector('.hero').style.display = 'none';
+            document.querySelector('.features').style.display = 'none';
+            document.querySelector('.algorithms').style.display = 'none';
+            document.querySelector('.cta-section').style.display = 'none';
+            document.querySelector('footer').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            document.body.style.background = '#0a0a0f';
+            // Load the app module
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = '/src/main.jsx';
+            document.getElementById('app-container').appendChild(script);
+          } else {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+        });
+      });
+
+      // Intersection Observer for fade-in animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.feature-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+      });
+    </script>
   </body>
 </html>
